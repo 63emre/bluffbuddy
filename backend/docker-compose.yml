@@ -1,0 +1,37 @@
+# ==========================================================
+# DOCKER COMPOSE - BluffBuddy Stack
+# ==========================================================
+# @owner DEV1 (Infrastructure)
+# @version v1.0.0
+# @see docs/v0.1.0/09-Deployment.md
+#
+# Services:
+# - app: NestJS backend
+# - redis: Game state persistence
+# - caddy: Reverse proxy with auto-TLS
+# ==========================================================
+
+# TODO v0.1.1: Define app service
+# - Build from Dockerfile
+# - Env file
+# - Depends on redis
+# - Internal network only
+
+# TODO v0.1.2: Define redis service
+# - redis:7-alpine image
+# - Persistent volume
+# - Memory limits
+
+# TODO v0.2.0: Define caddy service
+# - Caddyfile volume
+# - Ports 80, 443
+# - Auto TLS
+
+# TODO v0.2.0: Define networks
+# - internal (app <-> redis)
+# - external (caddy <-> app)
+
+# TODO v0.2.0: Define volumes
+# - redis_data
+# - caddy_data
+# - caddy_config

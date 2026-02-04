@@ -1,0 +1,53 @@
+# ==========================================================
+# GITHUB ACTIONS CI/CD PIPELINE
+# ==========================================================
+# BluffBuddy Online - Continuous Integration & Deployment
+# 
+# @owner DEV1 (Infrastructure)
+# @version v1.0.0
+# @see docs/v0.1.0/09-Deployment.md#6-cicd-pipeline
+# ==========================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+# TODO v0.2.0: Add environment secrets
+# TODO v0.2.0: Configure Docker Hub push
+# TODO v0.2.0: Add SSH deployment to Hetzner
+# TODO v0.3.0: Add staging environment
+
+jobs:
+  # TODO v0.1.1: Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # TODO v0.1.1: Setup Node.js
+      # TODO v0.1.1: Install dependencies
+      # TODO v0.1.1: Run build
+
+  # TODO v0.1.1: Test job
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      # TODO v0.1.1: Run unit tests
+      # TODO v0.1.1: Run e2e tests
+      # TODO v0.1.1: Upload coverage
+
+  # TODO v0.2.0: Deploy job
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      # TODO v0.2.0: Build Docker image
+      # TODO v0.2.0: Push to registry
+      # TODO v0.2.0: SSH deploy to Hetzner

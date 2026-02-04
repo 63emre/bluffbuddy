@@ -1,0 +1,19 @@
+# ==========================================================
+# CADDYFILE - Reverse Proxy Configuration
+# ==========================================================
+# @owner DEV1 (Infrastructure)
+# @version v1.0.0
+# @see docs/v0.1.0/09-Deployment.md
+#
+# Auto-TLS with Let's Encrypt
+# WebSocket support built-in
+# ==========================================================
+
+# TODO v0.2.0: Configure domain
+# api.bluffbuddy.com {
+#     reverse_proxy app:3000
+# }
+
+# TODO v0.2.0: Add rate limiting
+# TODO v0.2.0: Add security headers
+# TODO v0.2.0: Add logging
