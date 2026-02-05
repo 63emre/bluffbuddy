@@ -3,14 +3,14 @@
  * GAME GATEWAY
  * ==========================================================
  * BluffBuddy Online - Socket.io WebSocket Gateway
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Section 2.2
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: All game event handlers
- * 
+ *
  * GATEWAY RESPONSIBILITIES:
  * - Handle Socket.io connections
  * - Route game events to services
@@ -58,7 +58,7 @@ import { Server } from 'socket.io';
 /**
  * GameGateway
  * Socket.io WebSocket gateway for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/05-Networking.md
  */
 @WebSocketGateway({ namespace: '/game' })

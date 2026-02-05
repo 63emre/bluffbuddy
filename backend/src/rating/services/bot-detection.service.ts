@@ -3,14 +3,14 @@
  * BOT DETECTION SERVICE
  * ==========================================================
  * BluffBuddy Online - Anti-Cheat Bot Detection Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/06-ELO-Rating.md - Section 7.3
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: Bot detection algorithms
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Analyze player behavior patterns
  * - Detect coin farming bots
@@ -54,7 +54,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * BotDetectionService
  * Anti-cheat bot detection service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/06-ELO-Rating.md
  */
 @Injectable()

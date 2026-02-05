@@ -3,14 +3,14 @@
  * ROOM SERVICE
  * ==========================================================
  * BluffBuddy Online - Room Management Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Room Events
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: Room lifecycle management
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Create/destroy rooms
  * - Player join/leave handling
@@ -56,7 +56,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * RoomService
  * Room management service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/05-Networking.md
  */
 @Injectable()

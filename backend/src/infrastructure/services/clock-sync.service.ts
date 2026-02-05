@@ -3,11 +3,11 @@
  * CLOCK SYNC SERVICE
  * ==========================================================
  * BluffBuddy Online - Server-Client Time Synchronization
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @version v1.0.0
  * @see docs/v0.1.0/05-Networking.md - Section 4
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Handle clock sync ping/pong
  * - Calculate client time offsets

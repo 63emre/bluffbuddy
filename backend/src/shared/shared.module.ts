@@ -3,7 +3,7 @@
  * SHARED MODULE
  * ==========================================================
  * BluffBuddy Online - Shared Resources Module
- * 
+ *
  * @owner ALL DEVS
  * @version v1.0.0
  * ==========================================================

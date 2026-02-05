@@ -3,7 +3,7 @@
  * ECONOMY DTOs
  * ==========================================================
  * BluffBuddy Online - Economy Data Transfer Objects
- * 
+ *
  * @owner DEV3 (Social/Data)
  * @version v1.0.0
  * ==========================================================

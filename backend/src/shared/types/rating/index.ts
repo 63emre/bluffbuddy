@@ -3,7 +3,7 @@
  * RATING TYPES
  * ==========================================================
  * BluffBuddy Online - Rating & ELO Type Definitions
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  */

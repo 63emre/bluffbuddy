@@ -3,11 +3,11 @@
  * CHIP SERVICE
  * ==========================================================
  * BluffBuddy Online - Virtual Currency Management
- * 
+ *
  * @owner DEV3 (Social/Data)
  * @version v1.0.0
  * @see docs/v0.1.0/08-Monetization.md - Section 2
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Manage user chip balances
  * - Process chip transactions

@@ -3,11 +3,11 @@
  * BOT SERVICE
  * ==========================================================
  * BluffBuddy Online - AI Bot Player Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * @see docs/v0.1.0/03-GameEngine.md - Section 10
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Generate bot moves
  * - Handle disconnected player replacement

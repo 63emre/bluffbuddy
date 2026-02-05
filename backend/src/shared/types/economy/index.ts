@@ -3,7 +3,7 @@
  * ECONOMY TYPES
  * ==========================================================
  * BluffBuddy Online - Economy Type Definitions
- * 
+ *
  * @owner DEV3 (Social/Data)
  * @version v1.0.0
  */

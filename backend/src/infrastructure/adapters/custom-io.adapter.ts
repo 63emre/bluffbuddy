@@ -3,11 +3,11 @@
  * CUSTOM IO ADAPTER
  * ==========================================================
  * BluffBuddy Online - Custom Socket.io Adapter
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @version v1.0.0
  * @see docs/v0.1.0/05-Networking.md
- * 
+ *
  * ADAPTER RESPONSIBILITIES:
  * - Configure CORS
  * - Configure transports

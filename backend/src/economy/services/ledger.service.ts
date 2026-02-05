@@ -1,13 +1,14 @@
 /**
  * ==========================================================
- * LEDGER SERVICE
+ * TRANSACTION SERVICE (LEDGER)
  * ==========================================================
  * BluffBuddy Online - Transaction Ledger Service
- * 
+ *
  * @owner DEV3 (Social/Data)
- * @version v1.0.0
+ * @version v0.2.0
  * @see docs/v0.1.0/08-Monetization.md - Section 3
- * 
+ * @implements ITransactionService
+ *
  * SERVICE RESPONSIBILITIES:
  * - Record all chip transactions
  * - Provide audit trail
@@ -15,39 +16,44 @@
  * ==========================================================
  */
 
-// Ledger entry types:
-// - GAME_PAYOUT: Chips from game result
-// - GAME_ENTRY: Chips spent to enter game
-// - DAILY_REWARD: Daily login bonus
-// - AD_REWARD: Rewarded ad bonus
-// - IAP_PURCHASE: In-app purchase
-// - GIFT: Admin gift
-// - REFUND: Purchase refund
-
-// Ledger entry structure:
-// - id: string
-// - userId: string
-// - type: LedgerEntryType
-// - amount: number (positive or negative)
-// - balanceAfter: number
-// - description: string
-// - metadata: object (roomId, orderId, etc.)
-// - timestamp: Date
-
-// TODO v0.2.0: Implement Firestore ledger storage
-// TODO v0.2.0: Implement ledger queries
-// TODO v0.3.0: Add ledger export for auditing
-
-// Methods to implement:
-// - recordTransaction(entry): Promise<string>
-// - getUserLedger(userId, limit, cursor): Promise<LedgerPage>
-// - getTransactionsByType(userId, type): Promise<LedgerEntry[]>
-// - getTransactionById(id): Promise<LedgerEntry | null>
-// - getBalanceHistory(userId, days): Promise<BalancePoint[]>
-
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import {
+  DI_TOKENS,
+  ITransactionService,
+  IFirestoreService,
+} from '../../shared/contracts';
 
 @Injectable()
-export class LedgerService {
-  // TODO v0.2.0: Implement ledger tracking
+export class TransactionService implements ITransactionService {
+  constructor(
+    @Inject(DI_TOKENS.FIRESTORE_SERVICE)
+    private readonly firestoreService: IFirestoreService,
+  ) {}
+
+  // TODO v0.2.0: Implement recordTransaction
+  async recordTransaction(
+    userId: string,
+    type: string,
+    amount: number,
+    reason: string,
+  ): Promise<string> {
+    throw new Error('TransactionService.recordTransaction not implemented');
+  }
+
+  // TODO v0.2.0: Implement getTransactionHistory
+  async getTransactionHistory(
+    userId: string,
+    limit?: number,
+    cursor?: string,
+  ): Promise<{ transactions: any[]; nextCursor?: string }> {
+    throw new Error('TransactionService.getTransactionHistory not implemented');
+  }
+
+  // TODO v0.2.0: Implement getTransaction
+  async getTransaction(transactionId: string): Promise<any | null> {
+    throw new Error('TransactionService.getTransaction not implemented');
+  }
 }
+
+// Legacy alias for backward compatibility
+export { TransactionService as LedgerService };

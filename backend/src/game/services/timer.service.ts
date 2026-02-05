@@ -3,11 +3,11 @@
  * TIMER SERVICE
  * ==========================================================
  * BluffBuddy Online - Turn and Selection Timer Management
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * @see docs/v0.1.0/03-GameEngine.md - Section 9
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Manage turn timers
  * - Handle auto-pass on timeout

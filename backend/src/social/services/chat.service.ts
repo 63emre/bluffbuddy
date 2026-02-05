@@ -3,14 +3,14 @@
  * CHAT SERVICE
  * ==========================================================
  * BluffBuddy Online - Quick Chat and Reactions Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/07-Social-Features.md - Section 5
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Chat system implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Quick chat message handling
  * - Emoji reactions
@@ -56,7 +56,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * ChatService
  * Quick chat and reactions service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/07-Social-Features.md
  */
 @Injectable()

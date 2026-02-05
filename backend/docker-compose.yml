@@ -1,37 +1,148 @@
 # ==========================================================
-# DOCKER COMPOSE - BluffBuddy Stack
+# DOCKER COMPOSE - BluffBuddy Development Stack
 # ==========================================================
 # @owner DEV1 (Infrastructure)
-# @version v1.0.0
+# @version v0.2.0
 # @see docs/v0.1.0/09-Deployment.md
 #
-# Services:
-# - app: NestJS backend
-# - redis: Game state persistence
-# - caddy: Reverse proxy with auto-TLS
+# USAGE:
+#   Development: docker-compose up -d
+#   Rebuild:     docker-compose up -d --build
+#   Logs:        docker-compose logs -f app
+#   Stop:        docker-compose down
+#
+# HOT RELOAD:
+#   The app service mounts the src folder for live reloading.
+#   Changes to TypeScript files trigger automatic restart.
 # ==========================================================
 
-# TODO v0.1.1: Define app service
-# - Build from Dockerfile
-# - Env file
-# - Depends on redis
-# - Internal network only
+services:
+  # ============================================
+  # APP SERVICE - NestJS Backend
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development  # Use dev stage for hot-reload
+    container_name: bluffbuddy-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"       # HTTP API
+      - "3001:3001"       # WebSocket
+      - "9229:9229"       # Node.js debugger
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - WS_PORT=3001
+      - REDIS_URL=redis://redis:6379
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    env_file:
+      - .env.local
+    volumes:
+      # Mount source for hot-reload (development only)
+      - ./src:/app/src:delegated
+      - ./package.json:/app/package.json:ro
+      - ./tsconfig.json:/app/tsconfig.json:ro
+      - ./nest-cli.json:/app/nest-cli.json:ro
+      # Persist node_modules (avoids reinstall on restart)
+      - node_modules:/app/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - bluffbuddy-internal
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Hot-reload command with debugging enabled
+    command: npm run start:dev
 
-# TODO v0.1.2: Define redis service
-# - redis:7-alpine image
-# - Persistent volume
-# - Memory limits
+  # ============================================
+  # REDIS SERVICE - Game State & Pub/Sub
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: bluffbuddy-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"       # Expose for local debugging
+    volumes:
+      - redis_data:/data
+    networks:
+      - bluffbuddy-internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Memory limit for game state
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
 
-# TODO v0.2.0: Define caddy service
-# - Caddyfile volume
-# - Ports 80, 443
-# - Auto TLS
+  # ============================================
+  # CADDY SERVICE - Reverse Proxy (Production)
+  # ============================================
+  # Uncomment for production deployment
+  # caddy:
+  #   image: caddy:2-alpine
+  #   container_name: bluffbuddy-caddy
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile:ro
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   depends_on:
+  #     - app
+  #   networks:
+  #     - bluffbuddy-internal
+  #     - bluffbuddy-external
 
-# TODO v0.2.0: Define networks
-# - internal (app <-> redis)
-# - external (caddy <-> app)
+  # ============================================
+  # DOZZLE - Real-time Log Viewer
+  # ============================================
+  # View logs at http://localhost:8080
+  # No setup required - just reads Docker logs from stdout
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: bluffbuddy-dozzle
+    restart: unless-stopped
+    ports:
+      - "8080:8080"       # Web UI
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      # Filter to only show bluffbuddy containers
+      - DOZZLE_FILTER=name=bluffbuddy
+      # Disable authentication for local dev
+      - DOZZLE_NO_ANALYTICS=true
+    networks:
+      - bluffbuddy-internal
 
-# TODO v0.2.0: Define volumes
-# - redis_data
-# - caddy_data
-# - caddy_config
+# ============================================
+# VOLUMES
+# ============================================
+volumes:
+  node_modules:
+    driver: local
+  redis_data:
+    driver: local
+  # caddy_data:
+  #   driver: local
+  # caddy_config:
+  #   driver: local
+
+# ============================================
+# NETWORKS
+# ============================================
+networks:
+  bluffbuddy-internal:
+    driver: bridge
+  # bluffbuddy-external:
+  #   driver: bridge

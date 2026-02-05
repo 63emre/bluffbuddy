@@ -3,11 +3,11 @@
  * GAME DOMAIN ENUMS
  * ==========================================================
  * BluffBuddy Online - Game-related Enumeration Types
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: All game enums and constants
  * ==========================================================
@@ -174,7 +174,7 @@ export enum DisconnectReason {
 export const CARD_VALUES: Record<CardRank, number> = {
   [CardRank.ACE]: 11,
   [CardRank.TWO]: 2,
-  [CardRank.THREE]: 30,  // "Üçlü" special rule
+  [CardRank.THREE]: 30, // "Üçlü" special rule
   [CardRank.FOUR]: 4,
   [CardRank.FIVE]: 5,
   [CardRank.SIX]: 6,
@@ -182,9 +182,9 @@ export const CARD_VALUES: Record<CardRank, number> = {
   [CardRank.EIGHT]: 8,
   [CardRank.NINE]: 9,
   [CardRank.TEN]: 10,
-  [CardRank.JACK]: 20,   // "Vale" special value
-  [CardRank.QUEEN]: 15,  // "Kız" special value
-  [CardRank.KING]: 10,   // "Papaz" same as 10
+  [CardRank.JACK]: 20, // "Vale" special value
+  [CardRank.QUEEN]: 15, // "Kız" special value
+  [CardRank.KING]: 10, // "Papaz" same as 10
 } as const;
 
 /**

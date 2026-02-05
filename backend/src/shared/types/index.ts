@@ -3,10 +3,10 @@
  * SHARED TYPES - MAIN BARREL EXPORT
  * ==========================================================
  * BluffBuddy Online - All Shared Type Definitions
- * 
+ *
  * @owner DEV1 + DEV2 + DEV3
  * @iteration v0.1.0
- * 
+ *
  * Usage:
  * ```typescript
  * import { Card, GamePhase, PlayCardPayload, GAME_EVENTS } from '@shared/types';

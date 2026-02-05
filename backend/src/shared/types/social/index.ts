@@ -3,7 +3,7 @@
  * SOCIAL TYPES
  * ==========================================================
  * BluffBuddy Online - Social Feature Type Definitions
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
  */

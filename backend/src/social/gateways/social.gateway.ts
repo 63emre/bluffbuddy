@@ -3,14 +3,14 @@
  * SOCIAL GATEWAY
  * ==========================================================
  * BluffBuddy Online - Socket.io Social Events Gateway
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Social Events
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: All social event handlers
- * 
+ *
  * GATEWAY RESPONSIBILITIES:
  * - Handle friend requests
  * - Handle party invites
@@ -58,7 +58,7 @@ import { Server } from 'socket.io';
 /**
  * SocialGateway
  * Socket.io social events gateway for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/05-Networking.md
  */
 @WebSocketGateway({ namespace: '/social' })

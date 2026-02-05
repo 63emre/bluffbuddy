@@ -3,15 +3,15 @@
  * GAME STATE INTERFACES
  * ==========================================================
  * BluffBuddy Online - Game State Type Definitions
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md - State Management
- * 
+ *
  * CRITICAL: ServerGameState vs ClientGameView separation!
  * - ServerGameState: Full authoritative state (NEVER send to client)
  * - ClientGameView: Filtered view per player (safe to send)
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: All game state interfaces
  * ==========================================================
@@ -22,14 +22,14 @@
 // @see docs/v0.1.0/03-GameEngine.md - Section 2.3, 2.4
 // ----------------------------------------------------------
 
-import { 
-  Card, 
-  CardLocation, 
-  OpenCenterState, 
-  ServerPoolState, 
+import {
+  Card,
+  CardLocation,
+  OpenCenterState,
+  ServerPoolState,
   ServerPenaltyStack,
   ClientPoolState,
-  ClientPenaltySlotState 
+  ClientPenaltySlotState,
 } from './card.interface';
 import { GamePhase, RoomType, CardRank } from './enums';
 
@@ -144,93 +144,93 @@ export interface RoundState {
  * Server Game State (Full Authoritative)
  * ⚠️ CRITICAL: This is the single source of truth
  * ⚠️ NEVER send this directly to clients!
- * 
+ *
  * @owner DEV2
  * @see docs/v0.1.0/03-GameEngine.md - Section 2.3
  */
 export interface ServerGameState {
   /** Room ID this game belongs to */
   roomId: string;
-  
+
   /** Current game phase */
   phase: GamePhase;
-  
+
   /** Round information */
   round: RoundState;
-  
+
   /** Turn information */
   turn: TurnState;
-  
+
   // ----------------------------------------------------------
   // HIDDEN DATA (Server-only, never sent to clients)
   // ----------------------------------------------------------
-  
-  /** 
+
+  /**
    * Remaining deck (cards not yet dealt)
    * Only relevant during DEALING phase
    */
   deck: Card[];
-  
+
   /**
    * All player hands (HIDDEN from other players)
    * Key: playerId, Value: cards in hand
    */
   hands: Map<string, Card[]>;
-  
+
   /**
    * Full pool state (ALL cards, not just top)
    * Needed for seal calculation
    */
   pool: ServerPoolState;
-  
+
   /**
    * All penalty stacks (FULL data)
    * Key: playerId
    */
   penaltySlots: Map<string, ServerPenaltyStack>;
-  
+
   // ----------------------------------------------------------
   // PUBLIC DATA (Visible to all)
   // ----------------------------------------------------------
-  
+
   /** Open center cards (Açık Orta) - visible to all */
   openCenter: OpenCenterState;
-  
+
   /** Player metadata (no hands) */
   players: ServerPlayerState[];
-  
+
   /** Turn order (player IDs in counter-clockwise order) */
   turnOrder: string[];
-  
+
   // ----------------------------------------------------------
   // TRACKING DATA (For seal algorithm)
   // @see docs/v0.1.0/03-GameEngine.md - Section 6
   // ----------------------------------------------------------
-  
+
   /**
    * Card location tracking
    * Key: cardId (e.g., "Q-hearts")
    * Used for seal calculation
    */
   cardLocations: Map<string, CardLocation>;
-  
+
   /**
    * Accessible card counts per rank
    * Key: CardRank, Value: count of accessible cards
    * Used for seal calculation
    */
   accessibleCounts: Map<CardRank, number>;
-  
+
   // ----------------------------------------------------------
   // METADATA
   // ----------------------------------------------------------
-  
+
   /** Game start timestamp */
   startedAt: string;
-  
+
   /** Last state update timestamp */
   lastUpdatedAt: string;
-  
+
   /** Action log for replay/debugging */
   actionLog: GameAction[];
 }
@@ -277,64 +277,64 @@ export interface GameAction {
  * Client Game View
  * Game state as seen by a specific player
  * ✅ Safe to send to that player
- * 
+ *
  * @owner DEV2
  * @see docs/v0.1.0/03-GameEngine.md - Section 2.4
  */
 export interface ClientGameView {
   /** Room ID */
   roomId: string;
-  
+
   /** Current phase */
   phase: GamePhase;
-  
+
   /** Round info */
   round: RoundState;
-  
+
   // ----------------------------------------------------------
   // PLAYER'S OWN DATA (Full visibility)
   // ----------------------------------------------------------
-  
+
   /** Player's own hand (visible) */
   myHand: Card[];
-  
+
   /** Player's own seat index */
   myIndex: number;
-  
+
   /** Player's own ID */
   myId: string;
-  
+
   // ----------------------------------------------------------
   // PUBLIC BOARD STATE
   // ----------------------------------------------------------
-  
+
   /** Open center cards (Açık Orta) */
   openCenter: OpenCenterState;
-  
+
   /** Pool top card only (rest hidden) */
   poolTopCard: Card | null;
-  
+
   /** Pool card count */
   poolCount: number;
-  
+
   // ----------------------------------------------------------
   // OTHER PLAYERS (Masked data)
   // ----------------------------------------------------------
-  
+
   /** All players' public state (including self) */
   players: ClientPlayerState[];
-  
+
   // ----------------------------------------------------------
   // TURN INFO
   // ----------------------------------------------------------
-  
+
   /** Current turn state */
   turn: ClientTurnState;
-  
+
   // ----------------------------------------------------------
   // SERVER TIME SYNC
   // ----------------------------------------------------------
-  
+
   /** Server timestamp for clock sync */
   serverTime: string;
 }

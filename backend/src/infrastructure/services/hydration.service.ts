@@ -3,14 +3,14 @@
  * HYDRATION SERVICE
  * ==========================================================
  * BluffBuddy Online - Crash Recovery State Loading
- * 
+ *
  * @owner DEV1 (DevOps/Infrastructure)
  * @iteration v0.1.0
  * @see docs/v0.1.0/01-Infrastructure.md - Section 4
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: State recovery implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Load all active game states from Redis on startup
  * - Restore in-memory state
@@ -50,7 +50,7 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 /**
  * HydrationService
  * Crash recovery state loading service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/01-Infrastructure.md
  */
 @Injectable()

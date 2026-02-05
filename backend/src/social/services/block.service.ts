@@ -3,11 +3,11 @@
  * BLOCK SERVICE
  * ==========================================================
  * BluffBuddy Online - User Blocking Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
  * @see docs/v0.1.0/07-Social-Features.md
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Handle user blocking
  * - Filter blocked users from matchmaking

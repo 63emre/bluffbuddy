@@ -3,15 +3,15 @@
  * WEBSOCKET AUTH MIDDLEWARE
  * ==========================================================
  * BluffBuddy Online - Socket.io Authentication Middleware
- * 
+ *
  * @owner DEV3 (Social/Auth) + DEV1 (Infrastructure)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Section 4.2
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Token verification logic
  * - DEV1: Middleware integration with Socket.io
- * 
+ *
  * MIDDLEWARE RESPONSIBILITIES:
  * - Extract token from socket handshake
  * - Verify Firebase ID token
@@ -63,7 +63,7 @@ export interface AuthenticatedSocket extends Socket {
 /**
  * WsAuthMiddleware
  * WebSocket authentication middleware for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/05-Networking.md
  */
 @Injectable()

@@ -3,14 +3,14 @@
  * LEADERBOARD SERVICE
  * ==========================================================
  * BluffBuddy Online - Leaderboard Management Service
- * 
+ *
  * @owner DEV3 (Social/Statistics)
  * @iteration v0.1.0
  * @see docs/v0.1.0/06-ELO-Rating.md - Section 5
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Leaderboard implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Global leaderboard
  * - Friend leaderboard
@@ -48,7 +48,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * LeaderboardService
  * Leaderboard management service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/06-ELO-Rating.md
  */
 @Injectable()

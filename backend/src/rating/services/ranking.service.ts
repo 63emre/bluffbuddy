@@ -3,11 +3,11 @@
  * RANKING SERVICE
  * ==========================================================
  * BluffBuddy Online - Player Ranking Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * @see docs/v0.1.0/06-ELO-Rating.md - Section 4
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Calculate player rankings
  * - Handle seasonal resets

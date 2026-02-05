@@ -3,14 +3,14 @@
  * AUTH GUARD
  * ==========================================================
  * BluffBuddy Online - Authentication Guard
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/02-Auth.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Guard implementation for REST and WebSocket
- * 
+ *
  * GUARD RESPONSIBILITIES:
  * - Protect REST endpoints
  * - Validate request authorization
@@ -36,7 +36,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 /**
  * AuthGuard
  * Authentication guard for BluffBuddy REST endpoints
- * 
+ *
  * @see docs/v0.1.0/02-Auth.md
  */
 @Injectable()

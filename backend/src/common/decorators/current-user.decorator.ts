@@ -3,10 +3,10 @@
  * CURRENT USER DECORATOR
  * ==========================================================
  * BluffBuddy Online - Extract Current User from Request
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
- * 
+ *
  * DECORATOR RESPONSIBILITIES:
  * - Extract user from request/socket
  * - Provide type-safe user access

@@ -3,26 +3,81 @@
  * ECONOMY MODULE
  * ==========================================================
  * BluffBuddy Online - In-Game Economy Module
- * 
+ *
  * @owner DEV3 (Social/Data)
- * @version v1.0.0
+ * @version v0.2.0
  * @see docs/v0.1.0/08-Monetization.md
- * 
+ *
  * MODULE RESPONSIBILITIES:
- * - Chip management
- * - Transaction ledger
- * - IAP verification
- * - Rewarded ads
+ * - Chip management via WalletService
+ * - Transaction ledger via TransactionService
+ * - IAP verification via PurchaseService
+ * - Rewarded ads via RewardService
+ *
+ * DI PATTERN:
+ * This module uses interface-based dependency injection.
+ * Other modules inject via DI_TOKENS, not concrete classes.
  * ==========================================================
  */
 
-// TODO v0.2.0: Import all economy services
-// TODO v0.2.0: Configure module providers
-// TODO v0.3.0: Add economy controller for admin
+import { Module, forwardRef } from '@nestjs/common';
+import { DI_TOKENS } from '../shared/contracts';
+import { EconomyController } from './controllers';
+import {
+  WalletService,
+  TransactionService,
+  PurchaseService,
+  RewardService,
+} from './services';
+import { AuthModule } from '../auth';
+import { DatabaseModule } from '../database';
 
-import { Module } from '@nestjs/common';
-
+/**
+ * EconomyModule
+ * In-game economy and monetization for BluffBuddy
+ *
+ * @see docs/v0.1.0/08-Monetization.md
+ */
 @Module({
-  // TODO v0.2.0: Add imports, providers, exports
+  imports: [forwardRef(() => AuthModule), forwardRef(() => DatabaseModule)],
+  controllers: [EconomyController],
+  providers: [
+    // ============================================
+    // INTERFACE-BASED PROVIDERS (Public API)
+    // ============================================
+    {
+      provide: DI_TOKENS.WALLET_SERVICE,
+      useClass: WalletService,
+    },
+    {
+      provide: DI_TOKENS.TRANSACTION_SERVICE,
+      useClass: TransactionService,
+    },
+    {
+      provide: DI_TOKENS.PURCHASE_SERVICE,
+      useClass: PurchaseService,
+    },
+    {
+      provide: DI_TOKENS.REWARD_SERVICE,
+      useClass: RewardService,
+    },
+
+    // ============================================
+    // CONCRETE CLASS PROVIDERS (Internal use)
+    // ============================================
+    WalletService,
+    TransactionService,
+    PurchaseService,
+    RewardService,
+  ],
+  exports: [
+    // ============================================
+    // ONLY EXPORT DI TOKENS - NEVER CONCRETE CLASSES
+    // ============================================
+    DI_TOKENS.WALLET_SERVICE,
+    DI_TOKENS.TRANSACTION_SERVICE,
+    DI_TOKENS.PURCHASE_SERVICE,
+    DI_TOKENS.REWARD_SERVICE,
+  ],
 })
 export class EconomyModule {}

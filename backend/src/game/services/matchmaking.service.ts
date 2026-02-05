@@ -3,14 +3,14 @@
  * MATCHMAKING SERVICE
  * ==========================================================
  * BluffBuddy Online - Matchmaking Queue Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md - Matchmaking
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: Matchmaking algorithm and queue management
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Queue management (casual/ranked)
  * - ELO-based matching
@@ -50,7 +50,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * MatchmakingService
  * Queue and matchmaking service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/03-GameEngine.md
  */
 @Injectable()

@@ -3,14 +3,14 @@
  * GAME SERVICE
  * ==========================================================
  * BluffBuddy Online - Core Game Logic Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: All game logic implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Card play validation
  * - Match detection (Açık Orta, Havuz, Ceza Slotu)
@@ -23,27 +23,27 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StateService } from './state.service';
 import { SealService, SealEvent } from './seal.service';
-import { 
-  ServerGameState, 
-  MatchLocation, 
+import {
+  ServerGameState,
+  MatchLocation,
   PendingMove,
   GameAction,
   ServerPlayerState,
   TurnState,
   RoundState,
 } from '../../shared/types/game/state.interface';
-import { 
-  Card, 
+import {
+  Card,
   CardLocation,
   OpenCenterState,
   ServerPoolState,
   ServerPenaltyStack,
 } from '../../shared/types/game/card.interface';
-import { 
-  GamePhase, 
-  CardSuit, 
-  CardRank, 
-  CardZone, 
+import {
+  GamePhase,
+  CardSuit,
+  CardRank,
+  CardZone,
   PlayResult,
 } from '../../shared/types/game/enums';
 
@@ -68,9 +68,9 @@ const CARDS_PER_DEAL_PHASE = [4, 4, 4]; // 12 cards total per player
  * @see docs/v0.1.0/10-GameRules.md - Match Priority
  */
 const MATCH_PRIORITY = {
-  CENTER: 1,   // Açık Orta (highest priority)
-  POOL: 2,     // Havuz
-  PENALTY: 3,  // Ceza Slotu (lowest priority)
+  CENTER: 1, // Açık Orta (highest priority)
+  POOL: 2, // Havuz
+  PENALTY: 3, // Ceza Slotu (lowest priority)
 };
 
 // ----------------------------------------------------------
@@ -129,7 +129,7 @@ export interface GameEndResult {
 /**
  * GameService
  * Core game logic service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/03-GameEngine.md
  */
 @Injectable()
@@ -150,11 +150,26 @@ export class GameService {
    */
   createDeck(): Card[] {
     const deck: Card[] = [];
-    const suits = [CardSuit.HEARTS, CardSuit.DIAMONDS, CardSuit.CLUBS, CardSuit.SPADES];
+    const suits = [
+      CardSuit.HEARTS,
+      CardSuit.DIAMONDS,
+      CardSuit.CLUBS,
+      CardSuit.SPADES,
+    ];
     const ranks = [
-      CardRank.ACE, CardRank.TWO, CardRank.THREE, CardRank.FOUR,
-      CardRank.FIVE, CardRank.SIX, CardRank.SEVEN, CardRank.EIGHT,
-      CardRank.NINE, CardRank.TEN, CardRank.JACK, CardRank.QUEEN, CardRank.KING,
+      CardRank.ACE,
+      CardRank.TWO,
+      CardRank.THREE,
+      CardRank.FOUR,
+      CardRank.FIVE,
+      CardRank.SIX,
+      CardRank.SEVEN,
+      CardRank.EIGHT,
+      CardRank.NINE,
+      CardRank.TEN,
+      CardRank.JACK,
+      CardRank.QUEEN,
+      CardRank.KING,
     ];
 
     for (const suit of suits) {
@@ -176,13 +191,13 @@ export class GameService {
    */
   shuffleDeck(deck: Card[]): Card[] {
     const shuffled = [...deck];
-    
+
     for (let i = shuffled.length - 1; i > 0; i--) {
       // Use crypto-quality random
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    
+
     return shuffled;
   }
 
@@ -195,7 +210,10 @@ export class GameService {
    * @param roomId Room ID
    * @param players Players in seat order (counter-clockwise)
    */
-  initializeGame(roomId: string, players: ServerPlayerState[]): ServerGameState {
+  initializeGame(
+    roomId: string,
+    players: ServerPlayerState[],
+  ): ServerGameState {
     if (players.length !== 4) {
       throw new Error('BluffBuddy requires exactly 4 players');
     }
@@ -231,7 +249,7 @@ export class GameService {
     // Turn order (counter-clockwise from seat 0)
     const turnOrder = players
       .sort((a, b) => a.seatIndex - b.seatIndex)
-      .map(p => p.id);
+      .map((p) => p.id);
 
     const now = new Date().toISOString();
 
@@ -287,14 +305,14 @@ export class GameService {
     if (!state) throw new Error('Game not found');
 
     const centerCards: Card[] = [];
-    
+
     for (let i = 0; i < 4; i++) {
       const card = state.deck.pop();
       if (!card) throw new Error('Not enough cards in deck');
-      
+
       centerCards.push(card);
       state.openCenter.cards[i] = card;
-      
+
       // Update location tracking
       const location = state.cardLocations.get(card.id);
       if (location) {
@@ -348,7 +366,7 @@ export class GameService {
 
     state.lastUpdatedAt = new Date().toISOString();
     this.logger.log(`Deal phase ${dealPhase} complete for room ${roomId}`);
-    
+
     return dealtCards;
   }
 
@@ -362,36 +380,64 @@ export class GameService {
    * @param playerId Player attempting to play
    * @param cardId Card being played
    */
-  validatePlay(roomId: string, playerId: string, cardId: string): ValidationResult {
+  validatePlay(
+    roomId: string,
+    playerId: string,
+    cardId: string,
+  ): ValidationResult {
     const state = this.stateService.getServerState(roomId);
     if (!state) {
-      return { valid: false, error: 'Game not found', errorCode: 'GAME_NOT_FOUND' };
+      return {
+        valid: false,
+        error: 'Game not found',
+        errorCode: 'GAME_NOT_FOUND',
+      };
     }
 
     // Check phase
     if (state.phase !== GamePhase.PLAYER_TURN) {
-      return { valid: false, error: 'Not in play phase', errorCode: 'WRONG_PHASE' };
+      return {
+        valid: false,
+        error: 'Not in play phase',
+        errorCode: 'WRONG_PHASE',
+      };
     }
 
     // Check turn
     if (state.turn.currentPlayerId !== playerId) {
-      return { valid: false, error: 'Not your turn', errorCode: 'NOT_YOUR_TURN' };
+      return {
+        valid: false,
+        error: 'Not your turn',
+        errorCode: 'NOT_YOUR_TURN',
+      };
     }
 
     // Check if awaiting target selection
     if (state.turn.isAwaitingTarget) {
-      return { valid: false, error: 'Must select target first', errorCode: 'AWAITING_TARGET' };
+      return {
+        valid: false,
+        error: 'Must select target first',
+        errorCode: 'AWAITING_TARGET',
+      };
     }
 
     // Check if player has the card
     const hand = state.hands.get(playerId);
     if (!hand) {
-      return { valid: false, error: 'Player not found', errorCode: 'PLAYER_NOT_FOUND' };
+      return {
+        valid: false,
+        error: 'Player not found',
+        errorCode: 'PLAYER_NOT_FOUND',
+      };
     }
 
-    const cardIndex = hand.findIndex(c => c.id === cardId);
+    const cardIndex = hand.findIndex((c) => c.id === cardId);
     if (cardIndex === -1) {
-      return { valid: false, error: 'Card not in hand', errorCode: 'CARD_NOT_IN_HAND' };
+      return {
+        valid: false,
+        error: 'Card not in hand',
+        errorCode: 'CARD_NOT_IN_HAND',
+      };
     }
 
     return { valid: true };
@@ -407,7 +453,11 @@ export class GameService {
    * @param card Card being played
    * @param playerId Player who played the card
    */
-  findMatches(state: ServerGameState, card: Card, playerId: string): MatchLocation[] {
+  findMatches(
+    state: ServerGameState,
+    card: Card,
+    playerId: string,
+  ): MatchLocation[] {
     const matches: MatchLocation[] = [];
     const targetRank = card.rank;
 
@@ -467,7 +517,10 @@ export class GameService {
       if (stack.cards.length === 0) continue;
 
       // Get top matching group
-      const topMatches = this.sealService.getTopMatchingGroup(stack, targetRank);
+      const topMatches = this.sealService.getTopMatchingGroup(
+        stack,
+        targetRank,
+      );
       if (topMatches.length > 0) {
         matches.push({
           zone: 'penalty',
@@ -496,10 +549,10 @@ export class GameService {
    * @param targetOwnerId Optional: specific target for penalty slot match
    */
   playCard(
-    roomId: string, 
-    playerId: string, 
-    cardId: string, 
-    targetOwnerId?: string
+    roomId: string,
+    playerId: string,
+    cardId: string,
+    targetOwnerId?: string,
   ): CardPlayResult {
     // Validate
     const validation = this.validatePlay(roomId, playerId, cardId);
@@ -509,9 +562,9 @@ export class GameService {
 
     const state = this.stateService.getServerState(roomId)!;
     const hand = state.hands.get(playerId)!;
-    
+
     // Remove card from hand
-    const cardIndex = hand.findIndex(c => c.id === cardId);
+    const cardIndex = hand.findIndex((c) => c.id === cardId);
     const [card] = hand.splice(cardIndex, 1);
 
     // Update card location
@@ -544,7 +597,7 @@ export class GameService {
     // If target specified, use it
     if (targetOwnerId) {
       const targetMatch = matches.find(
-        m => m.zone === 'penalty' && m.ownerId === targetOwnerId
+        (m) => m.zone === 'penalty' && m.ownerId === targetOwnerId,
       );
       if (targetMatch) {
         return this.applyMatch(state, card, targetMatch, playerId);
@@ -554,13 +607,15 @@ export class GameService {
     // Store pending move and wait for selection
     state.turn.isAwaitingTarget = true;
     state.turn.validTargets = matches
-      .filter(m => m.zone === 'penalty')
-      .map(m => m.ownerId!);
-    
+      .filter((m) => m.zone === 'penalty')
+      .map((m) => m.ownerId!);
+
     state.turn.pendingMove = {
       card,
       matchOptions: matches,
-      selectionDeadline: new Date(Date.now() + TARGET_SELECTION_TIMEOUT * 1000).toISOString(),
+      selectionDeadline: new Date(
+        Date.now() + TARGET_SELECTION_TIMEOUT * 1000,
+      ).toISOString(),
     };
 
     state.phase = GamePhase.RESOLVING_MOVE;
@@ -576,13 +631,13 @@ export class GameService {
   /**
    * Handle no-match scenario
    * Card goes to POOL (not penalty!) when no match
-   * 
+   *
    * @see docs/v0.1.0/10-GameRules.md - No Match Rule
    */
   private applyNoMatch(
-    state: ServerGameState, 
-    card: Card, 
-    playerId: string
+    state: ServerGameState,
+    card: Card,
+    playerId: string,
   ): CardPlayResult {
     // Card goes to POOL (Havuz) - NOT directly to penalty
     state.pool.cards.push(card);
@@ -618,10 +673,10 @@ export class GameService {
    * Apply a match
    */
   private applyMatch(
-    state: ServerGameState, 
-    card: Card, 
+    state: ServerGameState,
+    card: Card,
     match: MatchLocation,
-    playerId: string
+    playerId: string,
   ): CardPlayResult {
     // Collect matched cards
     const collectedCards = [card, ...match.cards];
@@ -632,7 +687,9 @@ export class GameService {
     if (match.zone === 'center') {
       // Remove from open center
       for (const matchCard of match.cards) {
-        const idx = state.openCenter.cards.findIndex(c => c?.id === matchCard.id);
+        const idx = state.openCenter.cards.findIndex(
+          (c) => c?.id === matchCard.id,
+        );
         if (idx !== -1) {
           state.openCenter.cards[idx] = null;
         }
@@ -656,13 +713,13 @@ export class GameService {
     // Put collected cards on player's penalty slot
     // (Yes, even matched cards go to your penalty - they're "won")
     // Actually wait - let me check the rules again...
-    // 
+    //
     // In BluffBuddy: Matched cards are REMOVED from game (positive!)
     // The player's penalty slot is for cards they COULDN'T match!
-    // 
+    //
     // So collected cards just... disappear (are "won")
     // ----------------------------------------------------------
-    
+
     // Update locations for collected cards (removed from play)
     for (const collectedCard of collectedCards) {
       const loc = state.cardLocations.get(collectedCard.id);
@@ -676,7 +733,7 @@ export class GameService {
     // Log action
     this.logAction(state, 'match', playerId, {
       cardId: card.id,
-      matchedCards: match.cards.map(c => c.id),
+      matchedCards: match.cards.map((c) => c.id),
       zone: match.zone,
       targetOwner: match.ownerId,
     });
@@ -736,13 +793,15 @@ export class GameService {
 
     const playerId = state.turn.currentPlayerId;
     const hand = state.hands.get(playerId);
-    
+
     if (!hand || hand.length === 0) return null;
 
     // Auto-play first card in hand
     const autoCard = hand[0];
-    this.logger.warn(`Turn timeout for ${playerId}, auto-playing ${autoCard.id}`);
-    
+    this.logger.warn(
+      `Turn timeout for ${playerId}, auto-playing ${autoCard.id}`,
+    );
+
     return this.playCard(roomId, playerId, autoCard.id);
   }
 
@@ -758,11 +817,13 @@ export class GameService {
 
     // Auto-select highest priority target
     const sortedOptions = [...pendingMove.matchOptions].sort(
-      (a, b) => a.priority - b.priority
+      (a, b) => a.priority - b.priority,
     );
     const autoTarget = sortedOptions[0];
 
-    this.logger.warn(`Target selection timeout for ${playerId}, auto-selecting ${autoTarget.zone}`);
+    this.logger.warn(
+      `Target selection timeout for ${playerId}, auto-selecting ${autoTarget.zone}`,
+    );
 
     // Clear pending state first
     state.turn.isAwaitingTarget = false;
@@ -792,16 +853,16 @@ export class GameService {
       if (!stack) continue;
 
       const totalCards = stack.cards.length;
-      
+
       // Count sealed vs unsealed
       let sealedCards = 0;
       if (stack.isSealed && stack.sealedAtIndex !== undefined) {
         sealedCards = stack.cards.length - stack.sealedAtIndex;
       }
-      
+
       // Each card = 1 penalty point (simplified scoring)
       const roundPenalty = totalCards;
-      
+
       scores.set(player.id, roundPenalty);
       penaltySummary.push({
         playerId: player.id,
@@ -822,7 +883,10 @@ export class GameService {
    * Calculate final game results
    * Lowest total penalty wins!
    */
-  calculateGameResults(roomId: string, roundResults: RoundEndResult[]): GameEndResult {
+  calculateGameResults(
+    roomId: string,
+    roundResults: RoundEndResult[],
+  ): GameEndResult {
     const state = this.stateService.getServerState(roomId);
     if (!state) throw new Error('Game not found');
 
@@ -866,10 +930,10 @@ export class GameService {
    * Log a game action
    */
   private logAction(
-    state: ServerGameState, 
-    type: GameAction['type'], 
-    playerId: string, 
-    data: Record<string, unknown>
+    state: ServerGameState,
+    type: GameAction['type'],
+    playerId: string,
+    data: Record<string, unknown>,
   ): void {
     state.actionLog.push({
       type,
@@ -898,8 +962,10 @@ export class GameService {
   isGameOver(roomId: string): boolean {
     const state = this.stateService.getServerState(roomId);
     if (!state) return false;
-    
-    return state.round.roundNumber >= ROUNDS_PER_GAME && this.isRoundOver(roomId);
+
+    return (
+      state.round.roundNumber >= ROUNDS_PER_GAME && this.isRoundOver(roomId)
+    );
   }
 
   /**
@@ -946,13 +1012,16 @@ export class GameService {
     }
 
     // Reset accessibility
-    state.accessibleCounts = this.stateService.createInitialAccessibilityCounts();
+    state.accessibleCounts =
+      this.stateService.createInitialAccessibilityCounts();
     this.sealService.initializeAccessibility();
 
     state.phase = GamePhase.DEALING;
     state.lastUpdatedAt = new Date().toISOString();
 
-    this.logger.log(`Round ${state.round.roundNumber} started for room ${roomId}`);
+    this.logger.log(
+      `Round ${state.round.roundNumber} started for room ${roomId}`,
+    );
   }
 
   /**

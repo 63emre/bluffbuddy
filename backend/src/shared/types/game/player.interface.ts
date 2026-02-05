@@ -3,11 +3,11 @@
  * PLAYER INTERFACES
  * ==========================================================
  * BluffBuddy Online - Player Type Definitions
- * 
+ *
  * @owner DEV2 (Game Engine) + DEV3 (Social Features)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md - Section 3
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: In-game player state interfaces
  * - DEV3: Player profile and social interfaces

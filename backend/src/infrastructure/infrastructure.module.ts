@@ -3,51 +3,98 @@
  * INFRASTRUCTURE MODULE
  * ==========================================================
  * BluffBuddy Online - Infrastructure Module Registration
- * 
+ *
  * @owner DEV1 (DevOps/Infrastructure)
- * @iteration v0.1.0
+ * @version v0.2.0
  * @see docs/v0.1.0/01-Infrastructure.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: Complete infrastructure module implementation
- * 
+ *
  * MODULE CONTENTS:
- * - RedisService: Redis connection and operations
- * - HydrationService: Crash recovery state loading
- * - HealthService: Health check endpoints
- * - LoggerService: Structured logging
- * - ConfigService: Environment configuration
+ * - RedisService: Redis connection and operations (implements IRedisService)
+ * - HydrationService: Crash recovery state loading (implements IHydrationService)
+ * - PubSubService: Inter-process communication (implements IPubSubService)
+ * - ConfigService: Environment configuration (implements IConfigService)
+ * - LoggerModule: Cost-optimized smart logging (implements ISmartLoggerService)
+ *
+ * DI PATTERN:
+ * This module provides infrastructure services.
+ * Other modules inject via DI_TOKENS.
  * ==========================================================
  */
 
-// ----------------------------------------------------------
-// ITERATION v0.1.0 - Module skeleton
-// TODO v0.1.1: Add Redis configuration
-// TODO v0.1.2: Add health checks
-// TODO v0.2.0: Add metrics collection
-// ----------------------------------------------------------
-
-// Module will import:
-// - RedisService
-// - HydrationService
-// - HealthService
-// - LoggerService
-// - ConfigService
-
 import { Module, Global } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DI_TOKENS } from '../shared/contracts';
 import { RedisService, HydrationService } from './services';
+import { LoggerModule } from './logger';
+
+// Import configuration files
+import {
+  appConfig,
+  redisConfig,
+  firebaseConfig,
+  gameConfig,
+  socketConfig,
+} from '../config';
 
 /**
  * InfrastructureModule
- * Infrastructure module for BluffBuddy
- * 
+ * Global infrastructure module for BluffBuddy
+ *
  * @see docs/v0.1.0/01-Infrastructure.md
  */
 @Global()
 @Module({
-  imports: [ConfigModule.forRoot()],
-  providers: [RedisService, HydrationService],
-  exports: [RedisService, HydrationService, ConfigModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig, redisConfig, firebaseConfig, gameConfig, socketConfig],
+      envFilePath: ['.env.local', '.env'],
+    }),
+    // Smart Logger with batched Firestore writes
+    LoggerModule,
+  ],
+  providers: [
+    // ============================================
+    // INTERFACE-BASED PROVIDERS (Public API)
+    // ============================================
+    {
+      provide: DI_TOKENS.REDIS_SERVICE,
+      useClass: RedisService,
+    },
+    {
+      provide: DI_TOKENS.HYDRATION_SERVICE,
+      useClass: HydrationService,
+    },
+    {
+      provide: DI_TOKENS.CONFIG_SERVICE,
+      useExisting: ConfigService,
+    },
+
+    // ============================================
+    // CONCRETE CLASS PROVIDERS
+    // ============================================
+    RedisService,
+    HydrationService,
+  ],
+  exports: [
+    // ConfigModule is global, but export it explicitly
+    ConfigModule,
+
+    // LoggerModule exports its own providers
+    LoggerModule,
+
+    // ============================================
+    // ONLY EXPORT DI TOKENS - NEVER CONCRETE CLASSES!
+    // This forces consumers to use interface-based injection.
+    // ============================================
+    DI_TOKENS.REDIS_SERVICE,
+    DI_TOKENS.HYDRATION_SERVICE,
+    DI_TOKENS.CONFIG_SERVICE,
+    DI_TOKENS.LOGGER_SERVICE,
+    DI_TOKENS.CLS_CONTEXT_SERVICE,
+  ],
 })
 export class InfrastructureModule {}

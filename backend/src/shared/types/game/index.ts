@@ -3,7 +3,7 @@
  * GAME BARREL EXPORT
  * ==========================================================
  * BluffBuddy Online - Game Types Index
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * ==========================================================

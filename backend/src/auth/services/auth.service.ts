@@ -3,14 +3,14 @@
  * AUTH SERVICE
  * ==========================================================
  * BluffBuddy Online - Firebase Authentication Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/02-Auth.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Firebase integration and token verification
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Verify Firebase ID tokens
  * - Extract user info from tokens
@@ -43,7 +43,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * AuthService
  * Firebase authentication service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/02-Auth.md
  */
 @Injectable()

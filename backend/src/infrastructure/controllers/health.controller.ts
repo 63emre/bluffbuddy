@@ -3,10 +3,10 @@
  * HEALTH CONTROLLER
  * ==========================================================
  * BluffBuddy Online - Health Check Endpoints
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @version v1.0.0
- * 
+ *
  * CONTROLLER RESPONSIBILITIES:
  * - Health check endpoint
  * - Readiness probe

@@ -3,14 +3,14 @@
  * PRESENCE SERVICE
  * ==========================================================
  * BluffBuddy Online - Online Status Tracking Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/07-Social-Features.md - Section 4
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Presence system implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Track online/offline status
  * - Notify friends of status changes
@@ -55,7 +55,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * PresenceService
  * Online status tracking service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/07-Social-Features.md
  */
 @Injectable()

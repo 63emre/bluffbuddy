@@ -3,11 +3,11 @@
  * ERROR CODES
  * ==========================================================
  * BluffBuddy Online - Standardized Error Code Definitions
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Section 6
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: Error code definitions and handling strategy
  * ==========================================================
@@ -140,9 +140,12 @@ export type AuthErrorCode = (typeof AUTH_ERRORS)[keyof typeof AUTH_ERRORS];
 export type RoomErrorCode = (typeof ROOM_ERRORS)[keyof typeof ROOM_ERRORS];
 export type GameErrorCode = (typeof GAME_ERRORS)[keyof typeof GAME_ERRORS];
 export type MatchErrorCode = (typeof MATCH_ERRORS)[keyof typeof MATCH_ERRORS];
-export type SocialErrorCode = (typeof SOCIAL_ERRORS)[keyof typeof SOCIAL_ERRORS];
-export type RateLimitErrorCode = (typeof RATE_LIMIT_ERRORS)[keyof typeof RATE_LIMIT_ERRORS];
-export type SystemErrorCode = (typeof SYSTEM_ERRORS)[keyof typeof SYSTEM_ERRORS];
+export type SocialErrorCode =
+  (typeof SOCIAL_ERRORS)[keyof typeof SOCIAL_ERRORS];
+export type RateLimitErrorCode =
+  (typeof RATE_LIMIT_ERRORS)[keyof typeof RATE_LIMIT_ERRORS];
+export type SystemErrorCode =
+  (typeof SYSTEM_ERRORS)[keyof typeof SYSTEM_ERRORS];
 
 /** All error codes union */
 export type ErrorCode =

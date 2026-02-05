@@ -3,11 +3,11 @@
  * MATCHING SERVICE
  * ==========================================================
  * BluffBuddy Online - Card Matching Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * @see docs/v0.1.0/03-GameEngine.md#5-matching-system
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Detect card matches
  * - Find valid targets for matching

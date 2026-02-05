@@ -3,11 +3,11 @@
  * SESSION SERVICE
  * ==========================================================
  * BluffBuddy Online - User Session Management
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
  * @see docs/v0.1.0/02-Architecture.md
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Create and manage user sessions
  * - Map socket IDs to user IDs

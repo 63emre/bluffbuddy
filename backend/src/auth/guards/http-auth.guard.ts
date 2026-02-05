@@ -3,10 +3,10 @@
  * HTTP AUTH GUARD
  * ==========================================================
  * BluffBuddy Online - HTTP Authentication Guard
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
- * 
+ *
  * GUARD RESPONSIBILITIES:
  * - Verify Firebase ID token in Authorization header
  * - Attach user info to request
@@ -29,7 +29,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 @Injectable()
 export class HttpAuthGuard implements CanActivate {
   // TODO v0.1.1: Inject AuthService
-  
+
   canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     // TODO v0.1.1: Implement token verification
     return true;

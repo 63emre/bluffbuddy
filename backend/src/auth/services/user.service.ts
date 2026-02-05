@@ -3,14 +3,14 @@
  * USER SERVICE
  * ==========================================================
  * BluffBuddy Online - User Profile Management Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/02-Auth.md
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: User CRUD operations
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Create/update user profiles
  * - Retrieve user data
@@ -58,7 +58,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * UserService
  * User profile management service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/02-Auth.md
  */
 @Injectable()

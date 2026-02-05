@@ -3,14 +3,14 @@
  * REDIS SERVICE
  * ==========================================================
  * BluffBuddy Online - Redis Connection and Operations
- * 
+ *
  * @owner DEV1 (DevOps/Infrastructure)
  * @iteration v0.1.0
  * @see docs/v0.1.0/01-Infrastructure.md - Section 4
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: Redis connection management
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Redis connection pooling
  * - Game state persistence
@@ -62,7 +62,7 @@ import Redis from 'ioredis';
 /**
  * RedisService
  * Redis connection and operations service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/01-Infrastructure.md
  */
 @Injectable()

@@ -3,12 +3,12 @@
  * SOCKET PAYLOAD INTERFACES
  * ==========================================================
  * BluffBuddy Online - Client ↔ Server Payload Definitions
- * 
+ *
  * @owner DEV1 (Infrastructure) + DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Section 3.4
  * @see docs/GameLogic.md - Section 10 (DTO Yapıları)
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: Auth, Error, and Connection payloads
  * - DEV2: Game and Room payloads
@@ -23,9 +23,19 @@
 // ----------------------------------------------------------
 
 import { Card } from '../game/card.interface';
-import { PublicPlayerState, PlayerGameResult, Player } from '../game/player.interface';
+import {
+  PublicPlayerState,
+  PlayerGameResult,
+  Player,
+} from '../game/player.interface';
 import { RoomState, ClientGameView, TurnState } from '../game/state.interface';
-import { GamePhase, RoomType, MatchType, MatchZone, PlayResult } from '../game/enums';
+import {
+  GamePhase,
+  RoomType,
+  MatchType,
+  MatchZone,
+  PlayResult,
+} from '../game/enums';
 
 // ============================================================
 // AUTHENTICATION PAYLOADS
@@ -34,7 +44,7 @@ import { GamePhase, RoomType, MatchType, MatchZone, PlayResult } from '../game/e
 
 /**
  * Auth Verify Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -49,7 +59,7 @@ export interface AuthVerifyPayload {
 
 /**
  * Auth Verified Response (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -72,7 +82,7 @@ export interface AuthVerifiedPayload {
 
 /**
  * Connected Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -90,7 +100,7 @@ export interface ConnectedPayload {
 
 /**
  * Error Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -114,7 +124,7 @@ export interface ErrorPayload {
 
 /**
  * Kicked Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -134,7 +144,7 @@ export interface KickedPayload {
 
 /**
  * Create Room Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -149,7 +159,7 @@ export interface CreateRoomPayload {
 
 /**
  * Join Room Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -164,7 +174,7 @@ export interface JoinRoomPayload {
 
 /**
  * Room Created Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -182,7 +192,7 @@ export interface RoomCreatedPayload {
 
 /**
  * Room Joined Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -202,7 +212,7 @@ export interface RoomJoinedPayload extends RoomState {}
 
 /**
  * Player Joined Room Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -225,7 +235,7 @@ export interface PlayerJoinedPayload {
 
 /**
  * Player Left Room Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -243,7 +253,7 @@ export interface PlayerLeftPayload {
 
 /**
  * Player Ready Status Changed Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -266,7 +276,7 @@ export interface PlayerReadyPayload {
 
 /**
  * Play Card Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -285,7 +295,7 @@ export interface PlayCardPayload {
 /**
  * Select Target Payload (Client → Server)
  * Used when multiple penalty targets are available
- * 
+ *
  * @example
  * ```json
  * {
@@ -300,7 +310,7 @@ export interface SelectTargetPayload {
 
 /**
  * Game Start Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -332,7 +342,7 @@ export interface GameStatePayload extends ClientGameView {}
 
 /**
  * Turn Started Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -354,7 +364,7 @@ export interface TurnPayload {
 /**
  * Match Source Information
  * Describes where matched cards came from
- * 
+ *
  * @example
  * ```json
  * {
@@ -378,7 +388,7 @@ export interface MatchSource {
 
 /**
  * Card Played Result Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -408,7 +418,7 @@ export interface CardPlayedPayload {
 /**
  * Match Result Payload (Server → Client)
  * Detailed match information
- * 
+ *
  * @example
  * ```json
  * {
@@ -436,7 +446,7 @@ export interface MatchResultPayload {
 /**
  * Stack Sealed Payload (Server → Client)
  * Mühür event
- * 
+ *
  * @example
  * ```json
  * {
@@ -458,7 +468,7 @@ export interface SealPayload {
 /**
  * Awaiting Target Selection Payload (Server → Client)
  * When player must choose among multiple valid targets
- * 
+ *
  * @example
  * ```json
  * {
@@ -482,7 +492,7 @@ export interface AwaitingTargetPayload {
 
 /**
  * Round End Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -509,7 +519,7 @@ export interface RoundEndPayload {
 
 /**
  * Game End Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -540,7 +550,7 @@ export interface GameEndPayload {
 
 /**
  * Queue for Match Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -555,7 +565,7 @@ export interface QueueMatchPayload {
 
 /**
  * Searching Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -573,7 +583,7 @@ export interface SearchingPayload {
 
 /**
  * Match Found Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -593,7 +603,7 @@ export interface MatchFoundPayload {
 
 /**
  * Friend Add Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -608,7 +618,7 @@ export interface FriendAddPayload {
 
 /**
  * Friend Request Received Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -629,7 +639,7 @@ export interface FriendRequestPayload {
 
 /**
  * Friend Accept/Decline Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -644,7 +654,7 @@ export interface FriendRespondPayload {
 
 /**
  * Party Invite Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -659,7 +669,7 @@ export interface PartyInvitePayload {
 
 /**
  * Party Invite Received Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -685,14 +695,14 @@ export interface PartyInviteReceivedPayload {
 
 /**
  * Chat Message Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
  *   "messageId": "MSG_GOOD_GAME"
  * }
  * ```
- * 
+ *
  * Önceden tanımlı mesajlar:
  * - MSG_GOOD_GAME: "İyi oyunlar!"
  * - MSG_NICE_MOVE: "Güzel hamle!"
@@ -707,7 +717,7 @@ export interface ChatMessagePayload {
 
 /**
  * Chat Message Received Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {
@@ -728,7 +738,7 @@ export interface ChatMessageReceivedPayload {
 
 /**
  * Emoji Reaction Payload (Client → Server)
- * 
+ *
  * @example
  * ```json
  * {
@@ -743,7 +753,7 @@ export interface ChatReactionPayload {
 
 /**
  * Emoji Reaction Received Payload (Server → Client)
- * 
+ *
  * @example
  * ```json
  * {

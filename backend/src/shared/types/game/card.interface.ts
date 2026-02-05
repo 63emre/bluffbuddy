@@ -3,11 +3,11 @@
  * CARD INTERFACES
  * ==========================================================
  * BluffBuddy Online - Card Type Definitions
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/03-GameEngine.md - Section 2
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: Card model and related interfaces
  * ==========================================================

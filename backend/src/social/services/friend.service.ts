@@ -3,14 +3,14 @@
  * FRIEND SERVICE
  * ==========================================================
  * BluffBuddy Online - Friend List Management Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/07-Social-Features.md - Section 2
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Friend system implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Send/accept/decline friend requests
  * - Get friend list
@@ -48,7 +48,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * FriendService
  * Friend list management service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/07-Social-Features.md
  */
 @Injectable()

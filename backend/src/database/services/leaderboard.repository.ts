@@ -3,11 +3,11 @@
  * LEADERBOARD REPOSITORY
  * ==========================================================
  * BluffBuddy Online - Leaderboard Data Repository
- * 
+ *
  * @owner DEV3 (Social/Data)
  * @version v1.0.0
  * @see docs/v0.1.0/04-Database.md
- * 
+ *
  * REPOSITORY RESPONSIBILITIES:
  * - Manage leaderboard data
  * - Season rankings

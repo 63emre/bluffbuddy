@@ -3,10 +3,10 @@
  * COMMON MODULE
  * ==========================================================
  * BluffBuddy Online - Shared Utilities Module
- * 
+ *
  * @owner ALL DEVS
  * @version v1.0.0
- * 
+ *
  * MODULE RESPONSIBILITIES:
  * - Shared pipes
  * - Shared interceptors

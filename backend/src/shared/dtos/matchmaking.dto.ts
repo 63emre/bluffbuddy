@@ -3,7 +3,7 @@
  * MATCHMAKING DTOs
  * ==========================================================
  * BluffBuddy Online - Matchmaking Data Transfer Objects
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * ==========================================================

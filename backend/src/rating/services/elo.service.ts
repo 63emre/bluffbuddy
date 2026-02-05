@@ -3,14 +3,14 @@
  * ELO SERVICE
  * ==========================================================
  * BluffBuddy Online - ELO Rating Calculation Service
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/06-ELO-Rating.md - Section 2
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV2: ELO calculation algorithm
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Calculate ELO changes after game
  * - Handle 4-player ELO distribution
@@ -53,7 +53,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * EloService
  * ELO rating calculation service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/06-ELO-Rating.md
  */
 @Injectable()

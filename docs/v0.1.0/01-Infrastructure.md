@@ -46,7 +46,7 @@ BluffBuddy Online requires a high-performance, low-latency game server capable o
 Based on Hetzner Cloud offerings (Q1 2026), three candidates were evaluated:
 
 | Server | Architecture | vCPU | RAM | Storage (NVMe) | Monthly Cost | Status |
-|--------|-------------|------|-----|----------------|--------------|--------|
+| ------- | ----------- | ---- | --- | -------------- | ------------ | ------ |
 | **CPX21** | AMD EPYC (x86) | 3 | 4 GB | 80 GB | €7.55 | ✅ **SELECTED** |
 | CAX21 | Ampere Altra (ARM64) | 4 | 8 GB | 80 GB | €6.49 | ❌ Compatibility risks |
 | CX31 | Intel (x86) | 2 | 8 GB | 80 GB | €10.60 | ❌ Insufficient vCPU |

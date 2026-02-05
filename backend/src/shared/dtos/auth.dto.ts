@@ -3,7 +3,7 @@
  * AUTH DTOs
  * ==========================================================
  * BluffBuddy Online - Auth Data Transfer Objects
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
  * ==========================================================

@@ -3,11 +3,11 @@
  * HEALTH SERVICE
  * ==========================================================
  * BluffBuddy Online - Health Check Service
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @version v1.0.0
  * @see docs/v0.1.0/09-Deployment.md
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Check Redis connectivity
  * - Check Firebase connectivity

@@ -3,11 +3,11 @@
  * SOCKET.IO EVENT CONSTANTS
  * ==========================================================
  * BluffBuddy Online - Socket Event Name Definitions
- * 
+ *
  * @owner DEV1 (Infrastructure) + DEV2 (Game Engine)
  * @iteration v0.1.0
  * @see docs/v0.1.0/05-Networking.md - Section 3
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV1: Connection, Auth, and System events
  * - DEV2: Game, Room, and Matchmaking events
@@ -166,11 +166,13 @@ export const CHAT_EVENTS = {
 
 /** Extract all event names as union type */
 export type AuthEventName = (typeof AUTH_EVENTS)[keyof typeof AUTH_EVENTS];
-export type ConnectionEventName = (typeof CONNECTION_EVENTS)[keyof typeof CONNECTION_EVENTS];
+export type ConnectionEventName =
+  (typeof CONNECTION_EVENTS)[keyof typeof CONNECTION_EVENTS];
 export type RoomEventName = (typeof ROOM_EVENTS)[keyof typeof ROOM_EVENTS];
 export type GameEventName = (typeof GAME_EVENTS)[keyof typeof GAME_EVENTS];
 export type MatchEventName = (typeof MATCH_EVENTS)[keyof typeof MATCH_EVENTS];
-export type SocialEventName = (typeof SOCIAL_EVENTS)[keyof typeof SOCIAL_EVENTS];
+export type SocialEventName =
+  (typeof SOCIAL_EVENTS)[keyof typeof SOCIAL_EVENTS];
 export type ChatEventName = (typeof CHAT_EVENTS)[keyof typeof CHAT_EVENTS];
 
 /** All socket events */

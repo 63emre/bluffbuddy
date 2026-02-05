@@ -3,10 +3,10 @@
  * HTTP EXCEPTION FILTER
  * ==========================================================
  * BluffBuddy Online - Global HTTP Exception Handler
- * 
+ *
  * @owner DEV1 (Infrastructure)
  * @version v1.0.0
- * 
+ *
  * FILTER RESPONSIBILITIES:
  * - Catch all HTTP exceptions
  * - Format error responses

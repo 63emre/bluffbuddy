@@ -3,11 +3,11 @@
  * FIRESTORE SERVICE
  * ==========================================================
  * BluffBuddy Online - Firestore Database Service
- * 
+ *
  * @owner DEV3 (Social/Data)
  * @version v1.0.0
  * @see docs/v0.1.0/04-Database.md
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Initialize Firestore connection
  * - CRUD operations for collections

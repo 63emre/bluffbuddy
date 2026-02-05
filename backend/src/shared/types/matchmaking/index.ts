@@ -3,7 +3,7 @@
  * MATCHMAKING TYPES
  * ==========================================================
  * BluffBuddy Online - Matchmaking Type Definitions
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  */

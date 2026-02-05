@@ -3,11 +3,11 @@
  * NOTIFICATION SERVICE
  * ==========================================================
  * BluffBuddy Online - Push Notification Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @version v1.0.0
  * @see docs/v0.1.0/07-Social-Features.md
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Send push notifications via FCM
  * - Handle notification preferences

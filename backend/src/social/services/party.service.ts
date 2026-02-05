@@ -3,14 +3,14 @@
  * PARTY SERVICE
  * ==========================================================
  * BluffBuddy Online - Party/Group Management Service
- * 
+ *
  * @owner DEV3 (Social/Auth)
  * @iteration v0.1.0
  * @see docs/v0.1.0/07-Social-Features.md - Section 3
- * 
+ *
  * DEV RESPONSIBILITIES:
  * - DEV3: Party system implementation
- * 
+ *
  * SERVICE RESPONSIBILITIES:
  * - Create parties
  * - Invite players to party
@@ -51,7 +51,7 @@ import { Injectable } from '@nestjs/common';
 /**
  * PartyService
  * Party/group management service for BluffBuddy
- * 
+ *
  * @see docs/v0.1.0/07-Social-Features.md
  */
 @Injectable()

@@ -3,7 +3,7 @@
  * SEAL SERVICE UNIT TESTS
  * ==========================================================
  * BluffBuddy Online - Card Sealing Tests
- * 
+ *
  * @owner DEV2 (Game Engine)
  * @version v1.0.0
  * ==========================================================

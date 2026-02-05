@@ -153,6 +153,7 @@ Oyun sonunda önünüzdeki **Ceza Slotu**'nda biriken kartların puanları topla
 ```
 
 ### 4.2 Havuz (The Pool / Ortak Yığın)
+NOT: İlerleyen aşamalarda Havuzdaki son atılan N adet kartın görünmesi özelliği getirilebilir.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -187,13 +188,16 @@ Oyun sonunda önünüzdeki **Ceza Slotu**'nda biriken kartların puanları topla
 │   • LIFO mantığı (sadece en üstteki grup erişilebilir)          │
 │   • Oyun sonunda buradaki kartların puanları toplanır           │
 │                                                                  │
+│   ⚠️ ÖNEMLİ: Ceza Slotunda HER ZAMAN en az 2 kart bulunur!      │
+│   Çünkü kartlar eşleştirilerek (aynı rütbe) eklenir.            │
+│                                                                  │
 │   Örnek: Ali'nin Ceza Slotu                                     │
 │        ┌─────┐                                                   │
 │        │ J♠  │ ← En üst grup (eşleştirilebilir)                 │
 │        │ J♥  │                                                   │
 │        │─────│ ← Grup sınırı                                    │
-│        │ 9♦  │ ← Alt grup (J'ler alınırsa açığa çıkar)          │
-│        │ 9♣  │                                                   │
+│        │ 9♦  │ ← Alt grup (J'ler alınırsa açığa çıkar ve eşleş-  │
+│        │ 9♣  │             tirilebilir)                                      │
 │        └─────┘                                                   │
 │        = 20 + 20 + 9 + 9 = 58 ceza puanı                        │
 │                                                                  │
@@ -216,7 +220,7 @@ Elinizdeki bir kartın **rütbesi** (sayısal değeri) ile masadaki bir kart eş
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              EŞLEŞTİRME ÖNCELİK SIRASI                          │
+│              EŞLEŞTİRME MANTIĞI                                 │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   1️⃣  AÇIK ORTA'dan alma                                        │
@@ -359,6 +363,15 @@ Eğer elinizdeki kartlarla **hiçbir yerde** eşleşme yapamıyorsanız (veya st
 
 Bu oyunun **en stratejik** kuralıdır!
 
+### 🔒 Evrensel Mühür Kuralı
+
+Mühür, bir "tür" değil, **matematiksel bir kesinliktir**. Farklı senaryolar için farklı isimler (Havuz Mühürü, Çapraz Mühür, vb.) ezberlemene gerek yok. Tek bir soru her şeyi çözer:
+
+> **ALTIN SORU 🔑**
+> *"Yığının tepesindeki bu kartı (rütbeyi) eşleştirip yerinden oynatabilecek bir 'Serbest Kart' şu an evrende var mı?"*
+>
+> **Cevap HAYIR ise → O yığın MÜHÜRLENMİŞTİR!**
+
 ### Mühür Nedir?
 
 Mühürlenen kartlar ve onların altında kalan tüm kartlar **dokunulmaz** hale gelir:
@@ -366,98 +379,226 @@ Mühürlenen kartlar ve onların altında kalan tüm kartlar **dokunulmaz** hale
 - ❌ Taşınamaz
 - ❌ Değiştirilemez
 
-**O ceza puanları oyun sonuna kadar o oyuncuya kilitlenmiştir!**
+**O ceza puanları oyun sonuna kadar o oyuncuya kilitlenmiştir! (Havuz mühürlendiyse kartlar kimseye ait değildir.)**
 
-### Altın Soru 🔑
+---
 
-> *"Ceza slotunun tepesindeki bu kartı eşleştirip alabilecek 'Anahtar Kart' şu an evrende ulaşılabilir durumda mı?"*
+### "Serbest Kart" (Anahtar) Nedir?
 
-**Cevap HAYIR ise → O slot MÜHÜRLENMİŞTİR!**
-
-### Mühür Türleri
-
-#### 1️⃣ Tam Mühür (4 Kart Kuralı)
-
-Bir Ceza Slotu'nda aynı rütbeden **4 kart** üst üste gelirse, seri tamamlanır.
+Bir kartın mühür kırabilmesi için şu **3 şartın aynı anda** sağlanması gerekir:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              TAM MÜHÜR ÖRNEĞİ                                    │
+│              SERBEST KART ŞARTLARI                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ✅ 1. ERİŞİLEBİLİR OLMALI                                     │
+│      • Bir oyuncunun elinde VEYA                                │
+│      • Açık Orta'da durmalı                                     │
+│                                                                  │
+│   ✅ 2. GÖRÜNÜR OLMALI                                          │
+│      • Bir yığının EN ÜSTünde durmalı                           │
+│      • (Havuz tepesi veya Ceza Slotu tepesi)                    │
+│                                                                  │
+│   ✅ 3. KİLİTLİ OLMAMALI                                        │
+│      • Kendisi zaten mühürlü bir yığının parçası olmamalı       │
+│                                                                  │
+│   ─────────────────────────────────────────────────────────────  │
+│   Eğer masadaki bir kartı eşleştirebilecek "Serbest Kart"       │
+│   kalmadıysa → O kart ÖLÜDÜR ve altındaki her şeyi kilitler!   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Mühürleme Algoritması
+
+Her hamleden sonra sistem şu kontrolü yapar:
+
+| Adım | İşlem | Örnek (Kız - Q için) |
+|------|-------|----------------------|
+| **1** | **Toplamı Say** | Destede toplam kaç Kız var? → **4** |
+| **2** | **Kilitlileri Say** | Mühürlü slotların içinde kaç Kız hapsolmuş? → **1** |
+| **3** | **Gömülüleri Say** | Havuzun veya slotların altında (görünmez) kaç Kız var? → **1** |
+| **4** | **Kalanı Bul** | Evrende serbest kaç Kız kaldı? → **4 - 1 - 1 = 2** |
+| **5** | **Karar** | Yığının tepesindeki Kız sayısı ≥ Serbest Kız sayısı mı? → **MÜHÜR!** |
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              FORMÜL                                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Serbest_Kart = Toplam - Kilitli - Gömülü - Elde_Tutulan       │
+│                                                                  │
+│   Eğer Serbest_Kart = 0 → Tepedeki rütbe MÜHÜRLENDİ! 🔒        │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Örneklerle Evrensel Mühür
+
+Aşağıdaki tüm senaryolar **aynı mantıkla** çözülür:
+
+#### Örnek 1: Klasik 4'lü Mühür
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              4'LÜ MÜHÜR                                          │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   Ali'nin Ceza Slotu:                                           │
 │        ┌─────┐                                                   │
 │        │ K♠  │                                                   │
-│        │ K♥  │  4 tane Papaz = TAM MÜHÜR! 🔒                    │
+│        │ K♥  │  4 tane Papaz                                    │
 │        │ K♦  │                                                   │
 │        │ K♣  │                                                   │
 │        │─────│                                                   │
-│        │ 9♦  │ ← Bunlar da artık kilitli                        │
+│        │ 9♦  │ ← Bunlar da kilitli                              │
 │        │ 5♣  │                                                   │
 │        └─────┘                                                   │
 │                                                                  │
-│   Neden? Destede 5. bir Papaz olamayacağı için kimse bu         │
-│   kartları alamaz. Grup ve altındakiler sonsuza dek kilitli!    │
+│   HESAP:                                                        │
+│   • Toplam Papaz: 4                                             │
+│   • Kilitli: 0 (henüz mühür yok)                                │
+│   • Gömülü: 0                                                   │
+│   • Tepedeki: 4                                                 │
+│   • Serbest: 4 - 0 - 0 - 4 = 0                                  │
 │                                                                  │
-│   Ali'nin KİLİTLİ cezası: 10+10+10+10+9+5 = 54 puan            │
+│   Serbest = 0 → MÜHÜR! 🔒                                       │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 2️⃣ Kayıp Kart Mühürü (Ulaşılamazlık Kuralı)
+#### Örnek 2: Gömülü Kartlardan Mühür
 
-Bir kartın mühürlenmesi için **4 tane olması GEREKMEZ!** Eşleşebilecek kartlar "ulaşılamaz" durumdaysa, tepedeki kartlar (1 tane bile olsa) mühür sayılır.
-
-**Senaryo A - Havuzun Dibine Gömülme:**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              HAVUZ GÖMME MÜHÜRÜ                                  │
+│              GÖMÜLÜ KART MÜHÜRÜ                                  │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   Durumu takip et:                                              │
-│   • 2 tane As Havuz'a atıldı ve üstüne başka kartlar geldi      │
-│   • 1 tane As başka bir ceza slotunun altında (gömülü)          │
 │                                                                  │
 │   Havuz:           Ayşe'nin Ceza Slotu:                         │
 │   ┌─────┐          ┌─────┐                                       │
-│   │ 7♦  │ ← Tepede │ A♥  │ ← TEK AS! (elde veya görünürde)      │
-│   │ Q♣  │          └─────┘                                       │
-│   │ A♠  │ ← Gömülü (ulaşılamaz)                                 │
-│   │ A♦  │ ← Gömülü (ulaşılamaz)                                 │
+│   │ 7♦  │ ← Tepede │ A♥  │ ← 2 As (tepede)                      │
+│   │ ... │          │ A♣  │                                       │
+│   │ A♠  │ ← Gömülü └─────┘                                       │
 │   │ ... │                                                        │
+│   │ A♦  │ ← Gömülü                                               │
 │   └─────┘                                                        │
 │                                                                  │
-│   4. As nerede? → Mert'in ceza slotunun ALTında (gömülü)!       │
+│   HESAP:                                                        │
+│   • Toplam As: 4                                                │
+│   • Kilitli: 0                                                  │
+│   • Gömülü: 2 (havuzda)                                         │
+│   • Tepedeki: 2 (Ayşe'de)                                       │
+│   • Serbest: 4 - 0 - 2 - 2 = 0                                  │
 │                                                                  │
-│   SONUÇ: Ayşe'nin tek As'ı MÜHÜRLENDİ! 🔒                       │
-│   Çünkü eşleştirebilecek hiçbir As ulaşılabilir değil.          │
+│   Serbest = 0 → Ayşe'nin 2 As'ı MÜHÜRLÜ! 🔒                     │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**Senaryo B - Başka Slotun Altına Kaynama:**
+#### Örnek 3: Çapraz Kilitleme
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              ÇAPRAZ MÜHÜRLEME                                    │
+│              ÇAPRAZ KİLİTLEME                                    │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   Ali'nin Slotu:        Ayşe'nin Slotu:                         │
 │   ┌─────┐               ┌─────┐                                  │
 │   │ Q♠  │ ← 2 Kız       │ J♥  │ ← En üst (Vale)                 │
-│   │ Q♥  │               │ Q♦  │ ← Gömülü Kız!                   │
-│   └─────┘               │ Q♣  │ ← Gömülü Kız!                   │
+│   │ Q♥  │ (tepede)      │ J♦  │                                  │
+│   └─────┘               │─────│                                  │
+│                         │ Q♦  │ ← 2 Kız (gömülü)                │
+│                         │ Q♣  │                                  │
 │                         └─────┘                                  │
 │                                                                  │
-│   Ali'nin Kızları mühürlü mü?                                   │
-│   • 4 Kız var destede                                           │
-│   • 2 tanesi Ali'de (üstte, görünür)                            │
-│   • 2 tanesi Ayşe'de (Vale'nin altında, ulaşılamaz)             │
+│   HESAP:                                                        │
+│   • Toplam Kız: 4                                               │
+│   • Kilitli: 0                                                  │
+│   • Gömülü: 2 (Ayşe'nin Vale'lerinin altında)                   │
+│   • Tepedeki: 2 (Ali'de)                                        │
+│   • Serbest: 4 - 0 - 2 - 2 = 0                                  │
 │                                                                  │
-│   SONUÇ: Ali'nin 2 Kız'ı MÜHÜRLENDİ! 🔒                         │
-│   Kimse Kız oynayıp bunları alamaz.                             │
+│   Serbest = 0 → Ali'nin 2 Kız'ı MÜHÜRLÜ! 🔒                     │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+#### Örnek 4: Havuz Kilidi
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              HAVUZ KİLİDİ                                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Ali'nin Ceza Slotu:          Havuz:                           │
+│   ┌─────┐                      ┌─────┐                           │
+│   │ K♠  │ 🔒 (4 Papaz)         │ 2♦  │ ← Son 2 havuza atıldı    │
+│   │ K♥  │ 🔒                   │ 7♣  │                           │
+│   │ K♦  │ 🔒                   │ Q♠  │                           │
+│   │ K♣  │ 🔒                   │ ... │                           │
+│   │─────│                      └─────┘                           │
+│   │ 2♠  │ ← 3 tane 2                                            │
+│   │ 2♥  │   (Papazların altında kilitli)                        │
+│   │ 2♣  │                                                        │
+│   └─────┘                                                        │
+│                                                                  │
+│   HESAP:                                                        │
+│   • Toplam 2: 4                                                 │
+│   • Kilitli: 3 (Ali'de, Papazların altında)                     │
+│   • Gömülü: 0                                                   │
+│   • Tepedeki: 1 (havuzda)                                       │
+│   • Serbest: 4 - 3 - 0 - 1 = 0                                  │
+│                                                                  │
+│   Serbest = 0 → Havuzdaki 2♦ MÜHÜRLÜ! 🔒                        │
+│   Havuzun altındaki TÜM kartlar da kilitlendi!                  │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+#### Örnek 5: Stratejik Mühür (Bilinçli Kilitleme)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              STRATEJİK MÜHÜR                                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Durumun:                                                      │
+│   • Elinde: 1 tane 3♠                                           │
+│   • Rakibin önünde: 2 tane 3 (3♥, 3♦)                           │
+│   • Havuzda gömülü: 1 tane 3♣ (bunu biliyorsun!)                │
+│                                                                  │
+│   HAMLENİ YAP:                                                  │
+│   Elindeki 3♠'yi rakibin 3'lerinin üstüne at!                   │
+│                                                                  │
+│   HESAP:                                                        │
+│   • Toplam 3: 4                                                 │
+│   • Kilitli: 0                                                  │
+│   • Gömülü: 1 (havuzda)                                         │
+│   • Tepedeki: 3 (rakibin önünde)                                │
+│   • Serbest: 4 - 0 - 1 - 3 = 0                                  │
+│                                                                  │
+│   KLANK! 💥 Rakibe 90 puan (3×30) kilitlendi!                   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Önemli Kurallar
+
+| Kural | Açıklama |
+|-------|----------|
+| **Ceza Slotu min. kart** | Her zaman **en az 2 kart** (eşleştirme mantığı gereği) |
+| **Havuzda tek kart mühürü** | Mümkün (diğer 3 kart başka yerde kilitli/gömülüyse) |
+| **Havuz kilidi sonucu** | Havuzdaki kartlar oyun sonu hesabına **DAHİL EDİLMEZ** |
+| **Mühür kalıcıdır** | Bir kez mühürlenen yığın oyun sonuna kadar açılamaz |
+
+---
 
 ### Kritik Uyarı: Mühür İspatı ve Hafıza 🧠
 
@@ -488,6 +629,7 @@ Bir kartın mühürlenmesi için **4 tane olması GEREKMEZ!** Eşleşebilecek ka
 
 ## 7. İleri Düzey Stratejiler
 
+
 ### 7.1 Dost Kazığı 🎯
 
 Genelde kazanmaya en yakın (puanı en az) oyuncuya yüklenmek oyunun doğasında vardır.
@@ -508,14 +650,17 @@ Havuza hangi kartların atıldığını takip etmek **hayati önem** taşır.
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   Gözlemlerin:                                                  │
-│   • A♠ havuza atıldı (3. turda)                                 │
-│   • A♦ havuza atıldı (5. turda)                                 │
-│   • A♣ Mert'in cezasının altında gömülü                         │
+│   • A♠ havuza atıldı ve gömüldü                                 │
+│   • A♦ havuza atıldı ve gömüldü                                 │
 │                                                                  │
-│   Elinde: A♥ (tek ulaşılabilir As!)                             │
+│   Açık Orta: [A♣] (tek ulaşılabilir As)                         │
+│   Elinde:    [A♥]                                               │
 │                                                                  │
-│   STRATEJİ: Rakibin önüne tek As koy → OTOMATİK MÜHÜR!          │
-│   11 puan rakibe kilitlendi!                                    │
+│   STRATEJİ: Elindeki A♥ ile ortadaki A♣'yi eşleştir ve rakibe   │
+│   at → OTOMATİK MÜHÜR! 🔒                                       │
+│                                                                  │
+│   NEDEN? Diğer 2 As gömülü olduğu için rakip bu 2 As'ı asla     │
+│   başkasına devredemez veya savunamaz. 22 puan kilitlendi!      │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -658,13 +803,26 @@ Aynı puana sahip oyuncular **aynı sırayı paylaşır** ve ELO eşit dağılı
 | 2 | Havuz | Sadece en üst kart (sıralılar dahil) |
 | 3 | Ceza Slotları | Sadece en üst grup |
 
-### Mühür Kuralları
+### Mühür Kuralı (Evrensel)
 
-| Durum | Sonuç |
-|-------|-------|
-| 4 aynı kart üst üste | Tam Mühür 🔒 |
-| Eşi ulaşılamaz (havuzda gömülü / başka slotta gömülü) | Kayıp Kart Mühürü 🔒 |
+> **ALTIN SORU:** *"Yığının tepesindeki kartı eşleştirecek serbest kart var mı?"*
+> **HAYIR → MÜHÜR! 🔒**
+
+| Terim | Açıklama |
+|-------|----------|
+| **Serbest Kart** | Elde veya Açık Orta'da, görünür ve kilitli olmayan kart |
+| **Mühür Sonucu** | Tepedeki kart + altındaki tüm kartlar kilitlenir |
+| **Havuz Mühürü** | Havuz tepesi kilitlenirse tüm havuz oynanamaz |
+
+### Önemli Notlar
+
+| Kural | Açıklama |
+|-------|----------|
+| Ceza Slotu min. kart | Her zaman **en az 2 kart** (eşleştirme mantığı) |
+| Havuz tek kart mühürü | Mümkün (diğer 3 kart başka yerde kilitliyse) |
+| Havuz kilidi sonucu | Havuzdaki kartlar puan hesabına dahil edilmez |
+| Mühür kalıcıdır | Bir kez mühürlenen yığın oyun sonuna kadar açılamaz |
 
 ---
 
-*Doküman Versiyonu: 1.0 | Son Güncelleme: Şubat 2026*
+*Doküman Versiyonu: 1.2 | Son Güncelleme: Şubat 2026*

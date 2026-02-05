@@ -5,4 +5,6 @@
  * @owner DEV3
  */
 
-export * from './auth.guard';
+export { AuthGuard } from './auth.guard';
+export { WsAuthGuard } from './ws-auth.guard';
+export { HttpAuthGuard } from './http-auth.guard';
